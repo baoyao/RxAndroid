@@ -22,6 +22,7 @@ import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -49,9 +50,11 @@ public class MainActivity extends Activity {
                 onRunSchedulerExampleButtonClicked();
             }
         });
+        
+        new LoadPngImg().start(this, (LinearLayout)findViewById(R.id.ext_img));
     }
 
-    void onRunSchedulerExampleButtonClicked() {
+    private void onRunSchedulerExampleButtonClicked() {
         sampleObservable()
                 // Run on a background thread
                 .subscribeOn(AndroidSchedulers.from(backgroundLooper))
@@ -72,7 +75,7 @@ public class MainActivity extends Activity {
                 });
     }
 
-    static Observable<String> sampleObservable() {
+    private Observable<String> sampleObservable() {
         return Observable.defer(new Func0<Observable<String>>() {
             @Override public Observable<String> call() {
                 try {
@@ -86,7 +89,7 @@ public class MainActivity extends Activity {
         });
     }
 
-    static class BackgroundThread extends HandlerThread {
+    private class BackgroundThread extends HandlerThread {
         BackgroundThread() {
             super("SchedulerSample-BackgroundThread", THREAD_PRIORITY_BACKGROUND);
         }
@@ -148,13 +151,13 @@ public class MainActivity extends Activity {
 
 	}
 	private String recordStr=""; 
-	public void log(String str){
+	private void log(String str){
 		Log.v(TAG, str);
 		recordStr+=str+"\n";
 		txt.setText(recordStr);
 	}
 	
-    public void toast(String text){
+	private void toast(String text){
     	Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
     }
 }
